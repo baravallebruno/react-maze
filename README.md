@@ -21,7 +21,7 @@ To get started with Alien Maze Escape, follow these steps:
 Clone the repository:
 
 ```sh
-git clone TODO: Add repository address
+git clone https://github.com/baravallebruno/react-maze.git
 cd alien-maze-escape
 ```
 
