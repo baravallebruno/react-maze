@@ -13,6 +13,10 @@ Welcome to Alien Maze Escape! This React application, built with TypeScript, is 
 - React
 - TypeScript
 - Tailwind CSS
+- Vite
+- Vitest
+- Framer-motion
+- zustand
 
 ### Getting Started
 
