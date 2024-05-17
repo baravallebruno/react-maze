@@ -1,183 +1,35 @@
-import Maze from "./components/Maze";
-import { MazeType } from "./components/types";
+import End from "./components/End";
+import Game from "./components/Game";
+import Scenario from "./components/Scenario";
+import Welcome from "./components/Welcome";
+import ControlBar from "./components/ui/controlBar";
+import useMazeStore, { StageKey } from "./store";
 
 function App() {
-  const maze: MazeType = [
-    [
-      "Wall",
-      "Start",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Empty",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Empty",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Wall",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Wall",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Wall",
-    ],
-    [
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Empty",
-      "Wall",
-      "Empty",
-      "Empty",
-      "Exit",
-    ],
-    [
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-      "Wall",
-    ],
-  ];
+  const { activeStage } = useMazeStore((state) => ({
+    activeStage: state.activeStage,
+  }));
+
+  const switchContentByStage = (stage: Exclude<StageKey, "welcome">) => {
+    const gameStagesMap: Record<Exclude<StageKey, "welcome">, JSX.Element> = {
+      game: <Game />,
+      end: <End />,
+    };
+
+    return gameStagesMap[stage];
+  };
+
+  const isWelcomeStage = activeStage === "welcome";
+
+  if (isWelcomeStage) {
+    return <Welcome />;
+  }
 
   return (
-    <div className="grid place-items-center h-screen">
-      <h1>React Maze</h1>
-      <Maze maze={maze} />
-    </div>
+    <Scenario
+      content={switchContentByStage(activeStage)}
+      leftContent={<ControlBar />}
+    />
   );
 }
 
